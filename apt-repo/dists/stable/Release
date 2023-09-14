@@ -1,0 +1,18 @@
+Origin: cowponder 
+Label: cowponder
+Suite: stable
+Codename: stable
+Version: 1.0
+Architectures: all
+Components: main
+Description: A fun little command to print a randomly selected philosophical thought from a cow
+Date: Thu, 14 Sep 2023 21:49:44 +0000
+MD5Sum:
+ 02d4a888c5096c5ea5b3d3b3a7e9c981 477 main/binary-all/Packages
+ 3db6dffbbaf2a564edff6e07ab96e9ae 368 main/binary-all/Packages.gz
+SHA1:
+ 334e79cc1e80a14d40269117cf2efb51d4059cd1 477 main/binary-all/Packages
+ 0afecf0bcc964f1099074d7326ed7a744392e09a 368 main/binary-all/Packages.gz
+SHA256:
+ ed37a286bcc913f9bdedc3facd1b85ddc29d45d47b819d908ad4b11f2692d3f4 477 main/binary-all/Packages
+ 5bdef0bcddd0ead5e2704904f2f37fdee8a9e0c47a46bb2f56d1780d24937d51 368 main/binary-all/Packages.gz
