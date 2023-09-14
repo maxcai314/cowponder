@@ -1,0 +1,11 @@
+#!/usr/bin/python3
+
+import subprocess
+from random import SystemRandom
+random = SystemRandom() # more random
+
+with open("/etc/cowthoughts.txt") as thinkbook:
+	thoughts = [thought for thought in thinkbook.read().split("\n") if thought]
+
+thought = random.choice(thoughts)
+print(thought)

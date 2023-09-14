@@ -1,0 +1,7 @@
+Package: cowponder
+Version: 0.0.1
+Maintainer: Max Cai <maxster@xz.ax>
+Depends: cowsay, python3
+Architecture: all
+Homepage: https://github.com/maxcai314/cowponder
+Description: A fun little command to print a randomly selected philosophical thought from a cow
