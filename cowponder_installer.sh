@@ -1,4 +1,5 @@
-echo 'deb [arch=all] https://xz.ax/cowponder-apt-repo stable main' >> /etc/apt/sources.list/cowponder.list
-apt-get update --allow-insecure-repositories
-echo 'successfuly configured apt to install cowponder from https://xz.ax/cowponder-apt-repo'
-echo 'now run apt-get install cowponder to complete installation.'
+#!/usr/bin/env bash
+TEMP_DEB="$(mktemp)"
+wget -O "$TEMP_DEB" 'https://xz.ax/cowponder_0.0.1-1_all.deb'
+dpkg -i "$TEMP_DEB"
+rm -f "$TEMP_DEB"
