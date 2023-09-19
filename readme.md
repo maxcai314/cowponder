@@ -16,10 +16,10 @@ A simple terminal command that displays randomly selected philosophical thoughts
 
 ### Installation
 
-To install cowponder, run in terminal:
+For Debian operating systems, install the .deb package by running in terminal:
 
 ```
-curl -s https://xz.ax/cowponder_installer.sh | sudo bash
+curl -s https://xz.ax/cowponder_debian_installer.sh | sudo bash
 ```
 
 Alternative download methods:
@@ -40,4 +40,5 @@ cowponder  # displays a thought from a cow
 ### Dependencies
 
 * cowsay (cowthink)
+* dpkg
 
