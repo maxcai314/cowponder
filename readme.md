@@ -16,6 +16,8 @@ A simple terminal command that displays randomly selected philosophical thoughts
 
 ### Installation
 
+This only works on debian-based operating systems! for the homebrew version of this library, go to [homebrew-cowponder](https://github.com/maxcai314/homebrew-cowponder)
+
 For Debian operating systems, install the .deb package by running in terminal:
 
 ```
@@ -28,7 +30,9 @@ Alternative download methods:
 
 [deb package file](https://xz.ax/cowponder_0.0.1-1_all.deb)
 
-There isn't a proper way to install cowponder because I am inept with apt repos
+[homebrew-cowponder repository](https://github.com/maxcai314/homebrew-cowponder)
+
+There isn't a proper way to install cowponder with apt because I am inept with apt repos
 
 ### Usage
 
@@ -39,6 +43,6 @@ cowponder  # displays a thought from a cow
 
 ### Dependencies
 
-* cowsay (cowthink)
+* cowsay
+* python3
 * dpkg
-
