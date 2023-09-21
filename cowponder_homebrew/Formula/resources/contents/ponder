@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+
+import os
+from random import SystemRandom
+random = SystemRandom() # more random
+
+homebrew_prefix = os.popen("brew --prefix").read().strip()
+etc_directory = os.path.join(homebrew_prefix, "etc")
+cowthoughts_path = os.path.join(etc_directory, "cowthoughts.txt")
+with open(cowthoughts_path) as thinkbook:
+	thoughts = [thought for thought in thinkbook.read().split("\n") if thought]
+
+thought = random.choice(thoughts)
+print(thought)
