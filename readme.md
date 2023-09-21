@@ -57,9 +57,10 @@ cowponder  # displays a thought from a cow
 ### Dependencies
 
 Debian systems:
-* cowsay
-* python3
+* cowsay (auto installs if missing)
+* python3 (auto installs if missing)
 * dpkg
+* apt
 
 Windows systems:
 * powershell which has been updated in the past two decades
