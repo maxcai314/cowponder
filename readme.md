@@ -16,18 +16,36 @@ A simple terminal command that displays randomly selected philosophical thoughts
 
 ## Installation
 
-This only works on debian-based operating systems! for the homebrew version of this library, go to [homebrew-cowponder](https://github.com/maxcai314/homebrew-cowponder)
+### OSX
+
+If you already have homebrew installed, just run
+```bash
+brew install maxcai314/cowponder/cowponder
+```
+See the homebrew repo here: [homebrew-cowponder](https://github.com/maxcai314/homebrew-cowponder)
+
+### Debian
 
 Install the .deb package by running
 `curl -s https://xz.ax/cowponder_debian_installer.sh | sudo bash`
 
-### Alternative download methods:
+Alternatively, download the [deb package file](https://xz.ax/cowponder_0.0.1-1_all.deb) and install it manually using `dpkg -i cowponder_<version>.deb`
 
-[deb package file](https://xz.ax/cowponder_0.0.1-1_all.deb)
+### Windows
 
-[homebrew-cowponder repository](https://github.com/maxcai314/homebrew-cowponder)
+To install for powershell, run
+```powershell
+Install-Module cowponder
+```
+If, upon running `cowponder`, you get an error saying `running scripts is disabled on this system`, run one of these:
+```powershell
+# if you are running (or can run) powershell as administrator
+Set-ExecutionPolicy RemoteSigned
 
-There isn't a proper way to install cowponder with apt because I am inept with apt repos
+# if you don't have administrator priviledges
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+This allows scripts like cowponder to run if they are signed. [learn more here](https://go.microsoft.com/fwlink/?LinkID=135170).
 
 ## Usage
 
@@ -38,6 +56,10 @@ cowponder  # displays a thought from a cow
 
 ### Dependencies
 
+Debian systems:
 * cowsay
 * python3
 * dpkg
+
+Windows systems:
+* powershell which has been updated in the past two decades
