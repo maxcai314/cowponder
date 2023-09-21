@@ -42,7 +42,7 @@ If, upon running `cowponder`, you get an error saying `running scripts is disabl
 # if you are running (or can run) powershell as administrator
 Set-ExecutionPolicy RemoteSigned
 
-# if you don't have administrator priviledges
+# if you don't have administrator privileges
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 This allows scripts like cowponder to run if they are signed. [learn more here](https://go.microsoft.com/fwlink/?LinkID=135170).
