@@ -47,7 +47,9 @@ Set-ExecutionPolicy RemoteSigned
 # if you don't have administrator privileges
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
-This allows scripts like cowponder to run if they are signed. [learn more here](https://go.microsoft.com/fwlink/?LinkID=135170).
+This allows scripts like cowponder to run if they are signed. [learn more here](https://go.microsoft.com/fwlink/?LinkID=135170)
+
+More installation options are availible in the [Windows powershell gallery](https://www.powershellgallery.com/packages/cowponder/0.0.1).
 
 ## Usage
 
