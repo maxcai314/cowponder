@@ -63,7 +63,7 @@ Debian systems:
 * apt
 
 Windows systems:
-* powershell which has been updated in the past two decades
+* powershell (which has been updated in the past two decades)
 
 MacOS systems:
 * cowsay
