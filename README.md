@@ -64,3 +64,8 @@ Debian systems:
 
 Windows systems:
 * powershell which has been updated in the past two decades
+
+MacOS systems:
+* cowsay
+* python3
+* homebrew
