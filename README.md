@@ -19,15 +19,17 @@ A simple terminal command that displays randomly selected philosophical thoughts
 ### OSX
 
 If you already have homebrew installed, just run
-```bash
+```
 brew install maxcai314/cowponder/cowponder
 ```
 See the homebrew repo here: [homebrew-cowponder](https://github.com/maxcai314/homebrew-cowponder)
 
 ### Debian
 
-Install the .deb package by running
-`curl -s https://xz.ax/cowponder_debian_installer.sh | sudo bash`
+Install the .deb package by running the installer script
+```
+curl -s https://xz.ax/cowponder_debian_installer.sh | sudo bash
+```
 
 Alternatively, download the [deb package file](https://xz.ax/cowponder_0.0.1-1_all.deb) and install it manually using `dpkg -i <cowponder_file>.deb`
 
