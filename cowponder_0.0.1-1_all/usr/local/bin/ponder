@@ -1,11 +1,42 @@
 #!/usr/bin/python3
 
+import argparse
 import subprocess
 from random import SystemRandom
 random = SystemRandom() # more random
+ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
+ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
+ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
+ap.add_argument("-a", "--add", help="Add custom thought to thoughtbook.")
+# ap.add_argument("pipe_args", action='append', nargs='*', help='any additional arguments which should be included in the output, for whatever the next command is.')
+ap.add_argument("-b", action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-d", action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-g", action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-p", action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-s", action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-y", action='store_true', help=argparse.SUPPRESS)
+args = vars(ap.parse_args())
+
+if args['version']:
+	print("cowponder version 0.0.1")
+	exit()
+if args['update']:
+	subprocess.run(["wget", "-O", "/etc/cowthoughts.txt", "https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt"])
+	exit()
+if not ((thought := args['add']) is None):
+	with open("/etc/cowthoughts.txt", "a") as f:
+		print(thought, file=f)
+
+prefix = ''
+if args['b']: prefix += ' -b '
+if args['d']: prefix += ' -d '
+if args['g']: prefix += ' -g '
+if args['p']: prefix += ' -p '
+if args['s']: prefix += ' -s '
+if args['y']: prefix += ' -y '
 
 with open("/etc/cowthoughts.txt") as thinkbook:
 	thoughts = [thought for thought in thinkbook.read().split("\n") if thought]
 
 thought = random.choice(thoughts)
-print(thought)
+print(prefix + thought)
