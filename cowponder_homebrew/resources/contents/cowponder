@@ -40,4 +40,4 @@ while getopts ":h" option; do
    esac
 done
 
-cowthink $(./ponder "$@")
+cowthink $(ponder "$@")
