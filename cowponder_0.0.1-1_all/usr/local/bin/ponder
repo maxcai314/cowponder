@@ -22,6 +22,7 @@ if args['version']:
 	exit()
 if args['update']:
 	subprocess.run(["wget", "-O", "/etc/cowthoughts.txt", "https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt"])
+	print("updated thoughtbook (moo)")
 	exit()
 if not ((thought := args['add']) is None):
 	with open("/etc/cowthoughts.txt", "a") as f:
