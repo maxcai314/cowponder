@@ -2,11 +2,15 @@
 
 import argparse
 import subprocess
+import os
 from random import SystemRandom
 from os import path, popen
 cowthoughts_path = path.join(popen("brew --prefix").read().strip(), "etc", "cowthoughts.txt")
 
 random = SystemRandom() # more random
+
+cowthoughts_file = os.path.join(os.popen("brew --prefix").read().strip(), "etc", "cowthoughts.txt")
+
 ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
 ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
 ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")

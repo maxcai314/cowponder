@@ -8,6 +8,7 @@ from os import path, popen
 cowthoughts_path = "/etc/cowthoughts.txt"
 
 random = SystemRandom() # more random
+
 ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
 ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
 ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
