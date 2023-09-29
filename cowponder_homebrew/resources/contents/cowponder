@@ -1,43 +1,78 @@
-#!/usr/bin/env bash
+#!/usr/bin/python3
 
-Help()
-{
-    echo "cowponder generates an ASCII art picture of a cow thinking some"
-    echo "fascinating random thoughts. It word-wraps the message at about 40"
-    echo "columns, and prints the cow saying the given message on standard"
-    echo "output."
-    echo ""
-    echo "cowponder also includes ponder, which provides the same functionality"
-    echo "but without the bovine centerpiece so users may pipe the thoughts to"
-    echo "their contemplative creature of choice."
-    echo ""
-    echo "Different modes can be enabled by passing the appropriate option."
-    echo "For instance -d will enable Dead mode, were the cow shown appears"
-    echo "to be dead. The complete list of options are:"
-    echo ""
-    echo "  Borg     -b"
-    echo "  Dead     -d"
-    echo "  Greedy   -g"
-    echo "  Paranoid -p"
-    echo "  Stoned   -s"
-    echo "  Youthful -y"
-    echo ""
-    echo "Outside of the cow modes, there are several additional options. "
-    echo "Note that these are not available for ponder, since the ponder"
-    echo "is the same software as cowponder and shares a thoughtbook."
-    echo "  --version, -v         Display the version of cowponder and exit."
-    echo "  --update,  -u         Update the thoughtbook from the interwebs."
-    echo "                        This *will* erase any changes you've made; "
-    echo "                        back up anything you want to keep!"
-    echo "  --add, -a [thought]   Add [thought] to the thoughtbook."
-}
+import argparse
+import subprocess
+from random import SystemRandom
+from os import path, popen
+cowthoughts_path = path.join(popen("brew --prefix").read().strip(), "etc", "cowthoughts.txt")
 
-while getopts ":h" option; do
-   case $option in
-      h) # display Help
-         Help
-         exit;;
-   esac
-done
+random = SystemRandom() # more random
+ap = argparse.ArgumentParser(prog="cowponder", description="""cowponder generates an ASCII art picture of a cow thinking some
+fascinating random thoughts. It word-wraps the message at about 40
+columns, and prints the cow saying the given message on standard
+output.
 
-cowthink $(ponder "$@")
+cowponder also includes ponder, which provides the same functionality
+but without the bovine centerpiece so users may pipe the thoughts to
+their contemplative creature of choice.
+
+Different modes can be enabled by passing the appropriate option.
+For instance -d will enable Dead mode, were the cow shown appears
+to be dead. The complete list of options are:
+
+  Borg     -b
+  Dead     -d
+  Greedy   -g
+  Paranoid -p
+  Stoned   -s
+  Youthful -y
+
+Outside of the cow modes, there are several additional options. 
+Note that these are not available for ponder, since the ponder
+is the same software as cowponder and shares a thoughtbook.
+  --help,    -h         Print this help message and exit.
+  --version, -v         Display the version of cowponder and exit.
+  --update,  -u         Update the thoughtbook from the interwebs.
+                        This *will* erase any changes you've made; 
+                        back up anything you want to keep!
+  --add, -a [thought]   Add [thought] to the thoughtbook.""", 
+  usage="cowponder [-bdgpsy] [-h] [-v] [-u] [-a <THOUGHT>]", formatter_class=argparse.RawDescriptionHelpFormatter, add_help=False)
+
+ap.add_argument("-v", "--version", action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-u", "--update",  action='store_true', help=argparse.SUPPRESS)
+ap.add_argument("-a", "--add", help=argparse.SUPPRESS)
+ap.add_argument("-h", "--help", action="store_true", help=argparse.SUPPRESS)
+arglist = 'bdgpsy'
+for i in arglist:
+	ap.add_argument("-"+i, action="store_true", help=argparse.SUPPRESS)
+
+
+args = vars(ap.parse_args())
+
+
+if args["help"]:
+	print(ap.description)
+	exit()
+if args['version']:
+	subprocess.run(["cowthink", "cowponder version 0.0.1"])
+	# print("cowponder version 0.0.1")
+	exit()
+if args['update']:
+	subprocess.run(["wget", "-q", "-O", cowthoughts_path, "https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt"])
+	subprocess.run(["cowthink", "updated thoughtbook"])
+	exit()
+if thought := args['add']:
+	with open(cowthoughts_path, "a") as f:
+		print(thought, file=f)
+	subprocess.run(['cowthink', '"' + thought + '" added to thoughtbook'])
+	exit()
+
+
+with open(cowthoughts_path) as thinkbook:
+	thought = random.choice([thought for thought in thinkbook.read().split("\n") if thought])
+
+prefix = "".join([i for i in arglist if args[i]])
+if len(prefix) > 0:
+	subprocess.run(["cowthink", "-"+prefix, thought])
+else:
+	subprocess.run(["cowthink", thought])
