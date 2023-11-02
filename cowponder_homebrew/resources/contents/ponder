@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import requests
 import subprocess
 import os
 from random import SystemRandom
@@ -20,16 +21,22 @@ args = vars(ap.parse_args())
 if args['version']:
 	print("cowponder version 0.0.1")
 	exit()
-if args['update']:
-	subprocess.run(["wget", "-q", "-O", cowthoughts_path, "https://max.xz.ax/cowponder/cowthoughts.txt"])
-	print("updated thoughtbook (moo)")
-	exit()
-if thought := args['add']:
-	with open(cowthoughts_path, "a") as f:
-		print(thought, file=f)
-	print('"', thought, '" added to thoughtbook (moo)', sep='')
-	exit()
 
+if args['update']:
+        try:
+                response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
+                if response.status_code == 200:
+                        with open(cowthoughts_path, 'w') as f:
+                                f.write(response.text)
+                        print("updated thoughtbook (moo)")
+                        exit()
+                else:
+                        print("failed to download cowthoughts.txt")
+                        print("no changes written to local cowthoughts file")
+                        exit()
+        except Exception as e:
+                print(f"Error while downloading cowthoughts.txt: {e}")
+                exit()
 
 with open(cowthoughts_path) as thinkbook:
 	thoughts = [thought for thought in thinkbook.read().split("\n") if thought]
