@@ -2,7 +2,7 @@
 
 A simple terminal command that displays randomly selected philosophical thoughts from a cow
 
-```
+```text
  ______________________________________
 ( squeezing an ounce of meaning out of )
 ( this world                           )
@@ -19,7 +19,7 @@ A simple terminal command that displays randomly selected philosophical thoughts
 ### OSX
 
 If you already have homebrew installed, just run
-```
+```text
 brew install maxcai314/cowponder/cowponder
 ```
 See the homebrew repo here: [homebrew-cowponder](https://github.com/maxcai314/homebrew-cowponder)
@@ -27,7 +27,7 @@ See the homebrew repo here: [homebrew-cowponder](https://github.com/maxcai314/ho
 ### Debian
 
 Install the .deb package by running the installer script
-```
+```bash
 curl -s https://xz.ax/cowponder_debian_installer.sh | sudo bash
 ```
 
@@ -53,7 +53,7 @@ More installation options are availible in the [Windows powershell gallery](http
 
 ## Usage
 
-```
+```text
 ponder     # displays a thought
 cowponder  # displays a thought from a cow
 ```
