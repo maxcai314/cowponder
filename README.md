@@ -19,7 +19,7 @@ A simple terminal command that displays randomly selected philosophical thoughts
 ### OSX
 
 If you already have homebrew installed, just run
-```text
+```bash
 brew install maxcai314/cowponder/cowponder
 ```
 See the homebrew repo here: [homebrew-cowponder](https://github.com/maxcai314/homebrew-cowponder)
@@ -28,7 +28,7 @@ See the homebrew repo here: [homebrew-cowponder](https://github.com/maxcai314/ho
 
 Install the .deb package by running the installer script
 ```bash
-curl -s https://xz.ax/cowponder_debian_installer.sh | sudo bash
+curl -sSL https://max.xz.ax/cowponder/cowponder_debian_installer.sh | sudo bash
 ```
 
 Alternatively, download the [deb package file](https://xz.ax/cowponder_0.0.1-1_all.deb) and install it manually using `dpkg -i <cowponder_file>.deb`
@@ -53,9 +53,12 @@ More installation options are availible in the [Windows powershell gallery](http
 
 ## Usage
 
-```text
-ponder     # displays a thought
-cowponder  # displays a thought from a cow
+```bash
+# displays a thought
+ponder
+
+# displays a thought from a cow
+cowponder
 ```
 
 ### Dependencies
