@@ -78,7 +78,7 @@ function cowponder() {
   $idx = 0
   if (-not(Test-Path -Path "$HOME\.cowthoughts" -PathType Leaf)) {
     Write-Output "moo moo; couldn't find thougtbook. downloading now."
-    Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt -OutFile $HOME\.cowthoughts
+    Invoke-WebRequest -Uri https://max.xz.ax/cowponder/cowthoughts.txt -OutFile $HOME\.cowthoughts
   }
   foreach($arg in $args) {
 
@@ -88,7 +88,7 @@ function cowponder() {
     }
 
     if($arg -eq "-u" -or $arg -eq "--update"){
-      Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt -OutFile $HOME\.cowthoughts
+      Invoke-WebRequest -Uri https://max.xz.ax/cowponder/cowthoughts.txt -OutFile $HOME\.cowthoughts
       return
     }
 
@@ -116,7 +116,7 @@ function cowponder() {
 function Ponder() {
   if (-not(Test-Path -Path "$HOME\.cowthoughts" -PathType Leaf)) {
     Write-Output "moo moo; couldn't find thougtbook. downloading now."
-    Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt -OutFile $HOME\.cowthoughts
+    Invoke-WebRequest -Uri https://max.xz.ax/cowponder/cowthoughts.txt -OutFile $HOME\.cowthoughts
   }
   Write-Output (Get-Random -InputObject (get-content $HOME\.cowthoughts))
 }

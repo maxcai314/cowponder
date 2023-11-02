@@ -21,7 +21,7 @@ if args['version']:
 	print("cowponder version 0.0.1")
 	exit()
 if args['update']:
-	subprocess.run(["wget", "-q", "-O", cowthoughts_path, "https://raw.githubusercontent.com/maxcai314/cowponder/master/cowponder_0.0.1-1_all/etc/cowthoughts.txt"])
+	subprocess.run(["wget", "-q", "-O", cowthoughts_path, "https://max.xz.ax/cowponder/cowthoughts.txt"])
 	print("updated thoughtbook (moo)")
 	exit()
 if thought := args['add']:
