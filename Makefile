@@ -7,4 +7,4 @@ COWTHOUGHTS := cowthoughts.txt
 all: install
 
 install: $(BUILD_DIR)/$(COWTHOUGHTS)
-	cp $< $(INSTALL_DIR)
+	cp $^ $(INSTALL_DIR)
