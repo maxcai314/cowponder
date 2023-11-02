@@ -61,7 +61,12 @@ ponder
 cowponder
 ```
 
-### Dependencies
+## Dependencies
+
+MacOS systems:
+* cowsay
+* python3
+* homebrew
 
 Debian systems:
 * cowsay (auto installs if missing)
@@ -72,7 +77,5 @@ Debian systems:
 Windows systems:
 * powershell (which has been updated in the past two decades)
 
-MacOS systems:
-* cowsay
-* python3
-* homebrew
+## Contributors
+Cowponder is written by [maxcai314](https://github.com/maxcai314) and [reid23](https://github.com/reid23)
