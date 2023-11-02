@@ -1,7 +1,7 @@
 CONTENTS_DIR := ./contents
 BUILD_DIR := .
-INSTALL_DIR := /var/www/html
-TARBALL_FILE := cowponder-homebrew-v0.0.1.tar.gz
+INSTALL_DIR := /var/www/max/cowponder
+TARBALL_FILE := cowponder-homebrew-v0.0.2.tar.gz
 
 .PHONY: all clean install
 
