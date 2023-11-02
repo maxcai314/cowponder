@@ -2,7 +2,7 @@
 
 A simple terminal command that displays randomly selected philosophical thoughts from a cow
 
-[cowponder webpage](https://max.xz.ax/cowponder/)
+[cowponder website](https://max.xz.ax/cowponder/)
 ```text
  ______________________________________
 ( squeezing an ounce of meaning out of )
