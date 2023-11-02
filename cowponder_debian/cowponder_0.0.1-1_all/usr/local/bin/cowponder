@@ -67,9 +67,7 @@ if thought := args['add']:
 	subprocess.run(['cowthink', '"' + thought + '" added to thoughtbook'])
 	exit()
 
-
-with open(cowthoughts_path) as thinkbook:
-	thought = random.choice([thought for thought in thinkbook.read().split("\n") if thought])
+thought = subprocess.check_output("ponder", shell=True, stderr=subprocess.STDOUT, text=True)
 
 prefix = "".join([i for i in arglist if args[i]])
 if len(prefix) > 0:
