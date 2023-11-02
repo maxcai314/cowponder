@@ -1,11 +1,21 @@
-BUILD_DIR := .
+MAIN_DIR := .
 INSTALL_DIR := /var/www/max/cowponder
-COWTHOUGHTS := cowthoughts.txt
+
+DEBIAN_COWTHOUGHTS_DIR := ./cowponder_debian/cowponder_0.0.1-1_all/etc
+HOMEBREW_COWTHOUGHTS_DIR := ./cowponder_homebrew/resources/contents
 
 DEBIAN_DIR := ./cowponder_debian
 HOMEBREW_DIR := ./cowponder_homebrew/resources
 
-.PHONY: all clean install
+COWTHOUGHTS := cowthoughts.txt
+
+TARGETS := $(INSTALL_DIR)/$(COWTHOUGHTS) $(DEBIAN_COWTHOUGHTS_DIR)/$(COWTHOUGHTS) $(HOMEBREW_COWTHOUGHTS_DIR)/$(COWTHOUGHTS)
+
+.PHONY: update all clean install
+
+update: $(DEBIAN_COWTHOUGHTS_DIR)/$(COWTHOUGHTS) $(HOMEBREW_COWTHOUGHTS_DIR)/$(COWTHOUGHTS)
+	@echo Updated the default copy of cowthoughts.txt in Homebrew and Debian
+	@echo Please make all install to publish changes
 
 all:
 	make -C $(DEBIAN_DIR) all
@@ -20,5 +30,5 @@ install: $(INSTALL_DIR)/$(COWTHOUGHTS)
 	make -C $(DEBIAN_DIR) install
 	make -C $(HOMEBREW_DIR) install
 
-$(INSTALL_DIR)/$(COWTHOUGHTS): $(BUILD_DIR)/$(COWTHOUGHTS)
+$(TARGETS): $(MAIN_DIR)/$(COWTHOUGHTS)
 	cp $^ $@
