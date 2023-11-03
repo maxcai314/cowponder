@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+
+[project]
+name = "cowponder"
+version = "0.0.2"
+authors = [
+    {name="Max Cai",  email="maxster@xz.ax"},
+    {name="Reid Dye", email="reid@xz.ax"},
+]
+description = "The `cowponder` command line utility, for python."
+readme = "README.md"
+dependencies = ["argparse", "subprocess", "random", "os", "textwrap"]
+
+[project.urls]
+"Homepage" = "https://max.xz.ax/cowponder"
+"Bug Tracker" = "https://github.com/maxcai314/cowponder/issues"
