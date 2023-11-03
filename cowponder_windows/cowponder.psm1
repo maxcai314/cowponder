@@ -17,7 +17,7 @@
 #requires -Version 2.0
 
 # cowponder Version
-$version = "0.0.2"
+# $version = "0.0.2"
 
 # Max Width of the Speech Bubble
 $bubbleWidth = 40
