@@ -2,8 +2,7 @@ class Cowponder < Formula
   desc "Simple terminal command to display random philosophical thoughts from a cow"
   homepage "https://github.com/maxcai314/homebrew-cowponder"
   url "https://max.xz.ax/cowponder/cowponder-homebrew-v0.0.2.tar.gz"
-  sha256 "7763e1617af073b78783620dec70c0c0d4b0fee4f3e8dd950050c5daf2c818dd"
-
+  sha256 "1dcbb47be7c9d0fcc589e7744e31901fe85d9014784d7a32069b1d5f4cf1847d"
   depends_on "cowsay"
   depends_on "python@3"
 
