@@ -1,0 +1,1 @@
+your version of cowponder is out of date and references an old server. Reinstall cowponder, or update with 'brew upgrade maxcai314/cowponder/cowponder' (osx) or 'Update-Module cowponder' (windows)
