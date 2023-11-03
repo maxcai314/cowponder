@@ -56,8 +56,7 @@ if args["help"]:
 	exit()
 
 if args['version']:
-	subprocess.run(["cowthink", "cowponder version 0.0.1"])
-	# print("cowponder version 0.0.1")
+	subprocess.run(["dpkg", "-s", "cowponder"])
 	exit()
 
 if args['update']:
