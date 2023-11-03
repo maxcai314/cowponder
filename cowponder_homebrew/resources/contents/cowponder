@@ -41,7 +41,6 @@ is the same software as cowponder and shares a thoughtbook.
 ap.add_argument("-v", "--version", action='store_true', help=argparse.SUPPRESS)
 ap.add_argument("-u", "--update",  action='store_true', help=argparse.SUPPRESS)
 ap.add_argument("-a", "--add", help=argparse.SUPPRESS)
-ap.add_argument("-h", "--help", action="store_true", help=argparse.SUPPRESS)
 arglist = 'bdgpsy'
 for i in arglist:
 	ap.add_argument("-"+i, action="store_true", help=argparse.SUPPRESS)
@@ -49,10 +48,6 @@ for i in arglist:
 
 args = vars(ap.parse_args())
 
-
-if args["help"]:
-	print(ap.description)
-	exit()
 
 if args['version']:
 	subprocess.run(["cowthink", "cowponder version 0.0.1"])
