@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import argparse
-import requests
 import subprocess
 from random import SystemRandom
 from os import path, popen
@@ -42,7 +41,6 @@ is the same software as cowponder and shares a thoughtbook.
 ap.add_argument("-v", "--version", action='store_true', help=argparse.SUPPRESS)
 ap.add_argument("-u", "--update",  action='store_true', help=argparse.SUPPRESS)
 ap.add_argument("-a", "--add", help=argparse.SUPPRESS)
-ap.add_argument("-h", "--help", action="store_true", help=argparse.SUPPRESS)
 arglist = 'bdgpsy'
 for i in arglist:
 	ap.add_argument("-"+i, action="store_true", help=argparse.SUPPRESS)
@@ -51,36 +49,18 @@ for i in arglist:
 args = vars(ap.parse_args())
 
 
-if args["help"]:
-	print(ap.description)
-	exit()
-
 if args['version']:
 	subprocess.run(["brew", "info", "cowponder"])
 	# print("cowponder version 0.0.1")
 	exit()
 
-if args['update']:
-        try:
-                response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
-                if response.status_code == 200:
-                        with open(cowthoughts_path, 'w') as f:
-                                f.write(response.text)
-                        print("updated thoughtbook (moo)")
-                        exit()
-                else:
-                        print("failed to download cowthoughts.txt")
-                        print("no changes written to local cowthoughts file")
-                        exit()
-        except Exception as e:
-                print(f"Error while downloading cowthoughts.txt: {e}")
-                exit()
+if thought := args["add"]:
+        subprocess.run(["ponder", "--add", thought])
+        exit()
 
-if thought := args['add']:
-	with open(cowthoughts_path, "a") as f:
-		print(thought, file=f)
-	subprocess.run(['cowthink', '"' + thought + '" added to thoughtbook'])
-	exit()
+if args["update"]:
+        subprocess.run(["ponder", "--update"])
+        exit()
 
 thought = subprocess.check_output("ponder", shell=True, stderr=subprocess.STDOUT, text=True)
 

@@ -6,3 +6,4 @@ curl -o "$TEMP_DEB" -f -L 'https://max.xz.ax/cowponder/cowponder_0.0.1-1_all.deb
 dpkg -i "$TEMP_DEB"
 apt --fix-broken install --yes
 rm -f "$TEMP_DEB"
+chmod 666 '/etc/cowthoughts.txt'

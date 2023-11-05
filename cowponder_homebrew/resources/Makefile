@@ -3,6 +3,12 @@ BUILD_DIR := .
 INSTALL_DIR := /var/www/max/cowponder
 TARBALL_FILE := cowponder-homebrew-v0.0.2.tar.gz
 
+PACKAGE_FILE := ../Formula/cowponder.rb
+
+# ANSI color codes
+BLUE := \033[0;34m
+RESET := \033[0m
+
 .PHONY: all clean install
 
 all: $(BUILD_DIR)/$(TARBALL_FILE)
@@ -10,9 +16,22 @@ all: $(BUILD_DIR)/$(TARBALL_FILE)
 install: $(BUILD_DIR)/$(TARBALL_FILE)
 	cp $^ $(INSTALL_DIR)
 
-$(BUILD_DIR)/$(TARBALL_FILE): $(CONTENTS_DIR)
-	tar -czvf $@ -C $^ .
-	shasum -a 256 $(BUILD_DIR)/$(TARBALL_FILE)
-
 clean:
 	rm -f $(BUILD_DIR)/$(TARBALL_FILE)
+
+# build package and update checksum in ../Formula/cowponder.rb
+$(BUILD_DIR)/$(TARBALL_FILE): $(CONTENTS_DIR)
+	tar -czvf $@ -C $^ .
+	
+	new_checksum="$$(shasum -a 256 $@ | cut -d ' ' -f 1)" && \
+	echo && printf "new checksum: $(BLUE)$$new_checksum$(RESET)\n" && echo && \
+	awk -v new_checksum="$$new_checksum" '{ \
+		if ($$1 == "sha256") { \
+			print "  sha256 \"" new_checksum "\""; \
+		} else { \
+			print; \
+		} \
+	}' $(PACKAGE_FILE) > $(PACKAGE_FILE).temp && \
+	mv $(PACKAGE_FILE).temp $(PACKAGE_FILE)
+
+	@echo "updated new checksum in $(BLUE)../Formula/cowponder.rb$(RESET)"

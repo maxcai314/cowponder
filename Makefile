@@ -20,7 +20,6 @@ update: $(DEBIAN_COWTHOUGHTS_DIR)/$(COWTHOUGHTS) $(HOMEBREW_COWTHOUGHTS_DIR)/$(C
 all:
 	make -C $(DEBIAN_DIR) all
 	make -C $(HOMEBREW_DIR) all
-	@echo Please edit cowponder_homebrew/Formula/cowponder.rb and add new checksum.
 
 clean:
 	make -C $(DEBIAN_DIR) clean
