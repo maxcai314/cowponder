@@ -50,7 +50,7 @@ args = vars(ap.parse_args())
 
 
 if args['version']:
-	subprocess.run(["cowthink", "cowponder version 0.0.1"])
+	subprocess.run(["brew", "info", "cowponder"])
 	# print("cowponder version 0.0.1")
 	exit()
 

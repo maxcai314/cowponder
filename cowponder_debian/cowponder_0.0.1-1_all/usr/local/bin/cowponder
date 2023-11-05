@@ -50,8 +50,7 @@ args = vars(ap.parse_args())
 
 
 if args["version"]:
-	subprocess.run(["cowthink", "cowponder version 0.0.1"])
-	# print("cowponder version 0.0.1")
+	subprocess.run(["dpkg", "-s", "cowponder"])
 	exit()
 
 if thought := args["add"]:

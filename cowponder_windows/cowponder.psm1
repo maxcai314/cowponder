@@ -17,7 +17,7 @@
 #requires -Version 2.0
 
 # cowponder Version
-$version = "0.0.1"
+# $version = "0.0.2"
 
 # Max Width of the Speech Bubble
 $bubbleWidth = 40
@@ -147,8 +147,7 @@ function Print-Cow($eyes="oo", $tongue=" ") {
 }
 
 function Print-Version() {
- Print-MessageBubble("cowponder version $version") 
- Print-Cow
+  Get-Package -n cowponder
 }
 
 # Helper Functions
