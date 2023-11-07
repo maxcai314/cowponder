@@ -1,7 +1,7 @@
 CONTENTS_DIR := ./contents
 BUILD_DIR := .
 INSTALL_DIR := /var/www/max/cowponder
-TARBALL_FILE := cowponder-homebrew-v0.0.2.tar.gz
+TARBALL_FILE := cowponder-homebrew-v0.0.3.tar.gz
 
 PACKAGE_FILE := ../Formula/cowponder.rb
 
@@ -22,7 +22,7 @@ clean:
 # build package and update checksum in ../Formula/cowponder.rb
 $(BUILD_DIR)/$(TARBALL_FILE): $(CONTENTS_DIR)
 	tar -czvf $@ -C $^ .
-	
+
 	new_checksum="$$(shasum -a 256 $@ | cut -d ' ' -f 1)" && \
 	echo && printf "new checksum: $(BLUE)$$new_checksum$(RESET)\n" && echo && \
 	awk -v new_checksum="$$new_checksum" '{ \
