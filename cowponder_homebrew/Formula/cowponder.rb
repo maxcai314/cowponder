@@ -4,6 +4,8 @@ class Cowponder < Formula
   url "https://max.xz.ax/cowponder/cowponder-homebrew-v0.0.3.tar.gz"
   sha256 "f9ba2818473e0b74d311a809a1c884ecedfeddfe3b62bf7dc898539a3d4e4ab5"
 
+  version "0.0.3"
+
   depends_on "cowsay"
   depends_on "python@3"
 
