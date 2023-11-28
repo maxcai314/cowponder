@@ -1,7 +1,7 @@
 CONTENTS_DIR := ./contents
 BUILD_DIR := .
 INSTALL_DIR := /var/www/max/cowponder
-TARBALL_FILE := cowponder-homebrew-v0.0.3.tar.gz
+TARBALL_FILE := cowponder-homebrew-v0.0.4.tar.gz
 
 PACKAGE_FILE := ../Formula/cowponder.rb
 
