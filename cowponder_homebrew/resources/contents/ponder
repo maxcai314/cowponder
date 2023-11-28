@@ -35,7 +35,7 @@ if args['update']:
                         print("no changes written to local cowthoughts file")
                         exit()
         except Exception as e:
-                print(f"Error while downloading cowthoughts.txt: {e}")
+                print("Error while downloading cowthoughts.txt:", e)
                 exit()
 
 thought = args['add']
