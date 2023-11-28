@@ -3,10 +3,10 @@ class Cowponder < Formula
 
   desc "Simple terminal command to display random philosophical thoughts from a cow"
   homepage "https://github.com/maxcai314/homebrew-cowponder"
+  url "https://max.xz.ax/cowponder/cowponder-homebrew-v0.0.4.tar.gz"
 
   version "0.0.4"
 
-  url "https://max.xz.ax/cowponder/cowponder-homebrew-v0.0.4.tar.gz"
   sha256 "f9ba2818473e0b74d311a809a1c884ecedfeddfe3b62bf7dc898539a3d4e4ab5"
 
   # requests resource
