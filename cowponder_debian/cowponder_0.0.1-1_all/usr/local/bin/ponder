@@ -36,7 +36,8 @@ if args['update']:
 		print(f"Error while downloading cowthoughts.txt: {e}")
 		exit()
 
-if thought := args['add']:
+thought = args['add']
+if thought:
 	with open(cowthoughts_path, "a") as f:
 		print(thought, file=f)
 	print('"', thought, '" added to thoughtbook (moo)', sep='')
