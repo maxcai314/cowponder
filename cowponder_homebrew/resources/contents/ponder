@@ -35,9 +35,16 @@ if args['update']:
                         print("no changes written to local cowthoughts file")
                         exit()
         except Exception as e:
-                print(f"Error while downloading cowthoughts.txt: {e}")
+                print("Error while downloading cowthoughts.txt:", e)
                 exit()
 
+thought = args['add']
+if thought:
+        with open(cowthoughts_path, "a") as f:
+                print(thought, file=f)
+        print('"', thought, '" added to thoughtbook (moo)', sep='')
+        exit()
+        
 with open(cowthoughts_path) as thinkbook:
 	thoughts = [thought for thought in thinkbook.read().split("\n") if thought]
 
