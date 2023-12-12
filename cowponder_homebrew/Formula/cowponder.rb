@@ -4,11 +4,10 @@ class Cowponder < Formula
   desc "Simple terminal command to display random philosophical thoughts from a cow"
   homepage "https://github.com/maxcai314/homebrew-cowponder"
   url "https://max.xz.ax/cowponder/cowponder-homebrew-v0.0.4.tar.gz"
-
   sha256 "f9ba2818473e0b74d311a809a1c884ecedfeddfe3b62bf7dc898539a3d4e4ab5"
 
   depends_on "cowsay"
-  depends_on "python@3"
+  depends_on "python@3.x"
 
   # requests resource
   resource "requests" do
@@ -18,8 +17,8 @@ class Cowponder < Formula
 
   def install
     virtualenv_install_with_resources
-    bin.install "ponder"
-    bin.install "cowponder"
+    bin.install "ponder.py" => ponder
+    bin.install "cowponder" => cowponder
     etc.install "cowthoughts.txt"
   end
 

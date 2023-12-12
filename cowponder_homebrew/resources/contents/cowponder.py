@@ -1,9 +1,10 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import argparse
 import subprocess
 from random import SystemRandom
 from os import path, popen
+
 cowthoughts_path = path.join(popen("brew --prefix").read().strip(), "etc", "cowthoughts.txt")
 
 random = SystemRandom() # more random
