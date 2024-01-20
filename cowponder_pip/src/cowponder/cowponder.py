@@ -17,4 +17,4 @@ def cowponder(mode=""):
     )
     if mode:
         args = faces[mode[-1]]
-        
+    return cow(*args)
