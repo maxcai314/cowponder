@@ -10,16 +10,16 @@ random = SystemRandom() # more random
 
 class NoThoughtsCowHeadEmptyError(Exception):
     def __init__(self, thoughtbook_path):
-        super().__init__(message = f"Could not load thoughtbook from {thoughtbook_path}. Please check that it is there, or call update_thoughtbook() to re-download.")
+        super().__init__(f"Could not load thoughtbook from {thoughtbook_path}. Please check that it is there, or call update_thoughtbook() to re-download.")
 class EvilThoughtsError(Exception):
     def __init__(self, thoughttype):
-         super().__init__(message=f"Cow cannot think a {repr(thoughttype)}. Please pass strings.")
+         super().__init__(f"Cow cannot think a {repr(thoughttype)}. Please pass strings.")
 
 class PondererNotReachedError(Exception):
      def __init__(self, error):
-          super().__init__(message=f"Failed to download cowthoughts.txt (HTTP error {error}). No changes written to local thoughtbook.")
+          super().__init__(f"Failed to download cowthoughts.txt (HTTP error {error}). No changes written to local thoughtbook.")
 
-def ponder(max_width: int|None =None, no_error: bool=False) -> str|list[str]:
+def ponder(max_width=None, no_error=False):
     """gets a random thought from the thoughtbook.
 
     Args:
@@ -133,3 +133,5 @@ is the same software as cowponder and shares a thoughtbook.
     if args["update"]:
         print(update_thoughtbook(no_errors=True))
         exit()
+
+    print(ponder())
