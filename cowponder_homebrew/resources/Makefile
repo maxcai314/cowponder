@@ -1,7 +1,7 @@
 CONTENTS_DIR := ./contents
 BUILD_DIR := .
 INSTALL_DIR := /var/www/max/cowponder
-TARBALL_FILE := cowponder-homebrew-v0.0.3.tar.gz
+TARBALL_FILE := cowponder-homebrew-v0.0.4.tar.gz
 
 PACKAGE_FILE := ../Formula/cowponder.rb
 
@@ -25,9 +25,10 @@ $(BUILD_DIR)/$(TARBALL_FILE): $(CONTENTS_DIR)
 
 	new_checksum="$$(shasum -a 256 $@ | cut -d ' ' -f 1)" && \
 	echo && printf "new checksum: $(BLUE)$$new_checksum$(RESET)\n" && echo && \
-	awk -v new_checksum="$$new_checksum" '{ \
-		if ($$1 == "sha256") { \
+	awk -v new_checksum="$$new_checksum" 'BEGIN { found = 0 } { \
+		if (found == 0 && $$1 == "sha256") { \
 			print "  sha256 \"" new_checksum "\""; \
+			found = 1; \
 		} else { \
 			print; \
 		} \
