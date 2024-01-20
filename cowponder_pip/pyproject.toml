@@ -9,7 +9,7 @@ authors = [
     {name="Max Cai",  email="maxster@xz.ax"},
     {name="Reid Dye", email="reid@xz.ax"},
 ]
-description = "The `cowponder` command line utility, for python."
+description = "A simple command that displays randomly selected philosophical thoughts from a cow"
 readme = "README.md"
 dependencies = ["argparse", "subprocess", "random", "os", "textwrap", "requests"]
 
