@@ -2,12 +2,13 @@ class Cowponder < Formula
   include Language::Python::Virtualenv
 
   desc "Simple terminal command to display random philosophical thoughts from a cow"
-  homepage "https://github.com/maxcai314/homebrew-cowponder"
+  homepage "https://max.xz.ax/cowponder/"
   url "https://max.xz.ax/cowponder/cowponder-homebrew-v0.0.4.tar.gz"
   sha256 "ef20e3c9ee6e61db8fa0e82d0626fa0383995d6e13c45a4cef0c8e922a2be513"
 
   depends_on "cowsay"
-  depends_on "python@3.x"
+  depends_on "python-setuptools"
+  depends_on "python@3"
 
   # requests resource
   resource "requests" do
