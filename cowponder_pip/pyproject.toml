@@ -1,8 +1,6 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "cowponder"
@@ -17,4 +15,5 @@ dependencies = ["argparse", "subprocess", "random", "os", "textwrap"]
 
 [project.urls]
 "Homepage" = "https://max.xz.ax/cowponder"
+"Source Code" = "https://github.com/maxcai314/cowponder"
 "Bug Tracker" = "https://github.com/maxcai314/cowponder/issues"
