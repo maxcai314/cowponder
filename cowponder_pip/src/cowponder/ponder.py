@@ -120,7 +120,7 @@ def update_thoughtbook(no_errors=False):
         else:
                 raise e
 
-if __name__ == "__main__":
+def main():
     ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
     ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
     ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
@@ -144,3 +144,6 @@ if __name__ == "__main__":
         exit()
 
     print(ponder())
+
+if __name__ == "__main__":
+    main()

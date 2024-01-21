@@ -1,7 +1,7 @@
 from cowponder.ponder import add_thoughts, update_thoughtbook, cowponder
 import argparse
 
-if __name__ == "__main__":
+def main():
     ap = argparse.ArgumentParser(prog="cowponder", description="""cowponder generates an ASCII art picture of a cow thinking some
 fascinating random thoughts. It word-wraps the message at about 40
 columns, and prints the cow saying the given message on standard
@@ -58,3 +58,6 @@ is the same software as cowponder and shares a thoughtbook.
         exit()
     
     print(cowponder(mode=prefix))
+
+if __name__ == "__main__":
+    main()
