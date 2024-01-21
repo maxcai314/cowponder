@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def read_file(filename):
     try:
@@ -14,7 +14,14 @@ setup(
     description="A simple command that displays randomly selected philosophical thoughts from a cow",
     url="https://max.xz.ax/cowponder",
     version="0.0.2",
-    scripts=["src/cowponder/cowponder.py", "src/cowponder/ponder.py"],
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
+    entry_points={
+        'console_scripts': [
+            'cowponder=cowponder.cowponder:main',
+            'ponder=cowponder.ponder:main',
+        ],
+    },
     install_requires=requirements,
     keywords="cow philosophical ponder cowponder ascii ascii-art fun",
 )
