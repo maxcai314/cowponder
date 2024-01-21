@@ -37,8 +37,38 @@ def ponder(max_width=None, no_error=False):
         else: raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
     with open(cowthoughts_path) as thinkbook:
         thought = random.choice([thought for thought in thinkbook.read().split("\n") if thought])
-    thought = wrap(thought, width=max_width)
-    return thought
+    if max_width is None:
+         return thought
+    return wrap(thought, width=max_width)
+
+def cow(eyes="oo", tongue=" "):
+    return (
+f"""      o  ^__^             
+       o ({eyes})\________    
+         (__)\        )\/\\
+          {tongue}   ||----w |   
+              ||     ||   """)
+
+def cowponder(mode="", width=40):
+    faces = dict(
+       b=("==", " "),
+       d=("XX", "U"),
+       g=("$$", " "),
+       p=("@@", " "),
+       s=("**", "U"),
+       y=("..", " ")
+    )
+    if mode:
+        args = faces[mode[-1]]
+    else:
+        args = ("oo", " ")
+    
+    thought = ponder(width, no_error=True)
+    truewidth = max(map(len, thought))
+    out = ' ' + '_'*(truewidth+2) + '\n'
+    out += '\n'.join([f"( {i.ljust(truewidth)} )" for i in thought])
+    out += '\n '+'-'*(truewidth+2) + '\n'
+    return out+cow(*args)
 
 def _verify_thoughtbook(path, no_error=False):
     if not path.exists(cowthoughts_path):
@@ -65,58 +95,36 @@ def add_thoughts(*thoughts):
         print(thoughts, file=f, sep="\n")
 
 def update_thoughtbook(no_errors=False):
-        try:
-            response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
-            if response.status_code == 200:
-                with open(cowthoughts_path, 'w') as f:
-                        f.write(response.text)
-                return "updated thoughtbook (moo)"
-            else:
-                raise PondererNotReachedError("failed to download cowthoughts.txt")
-        except Exception as e:
-            if no_errors:
-                 return e
-            else:
-                 raise e
+    """updates the thoughtbook from the server.
+
+    Args:
+        no_errors (bool, optional): if True, exceptions will be returned instead of raised. Defaults to False.
+
+    Raises:
+        PondererNotReachedError: indicates failure to connect to the server and download the thoughtbook.
+
+    Returns:
+        str | Exception: a success message or an exception. 
+    """
+    try:
+        response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
+        if response.status_code == 200:
+            with open(cowthoughts_path, 'w') as f:
+                    f.write(response.text)
+            return "updated thoughtbook (moo)"
+        else:
+            raise PondererNotReachedError("failed to download cowthoughts.txt")
+    except Exception as e:
+        if no_errors:
+                return e
+        else:
+                raise e
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(prog="cowponder", description="""cowponder generates an ASCII art picture of a cow thinking some
-fascinating random thoughts. It word-wraps the message at about 40
-columns, and prints the cow saying the given message on standard
-output.
-
-cowponder also includes ponder, which provides the same functionality
-but without the bovine centerpiece so users may pipe the thoughts to
-their contemplative creature of choice.
-
-Different modes can be enabled by passing the appropriate option.
-For instance -d will enable Dead mode, were the cow shown appears
-to be dead. The complete list of options are:
-
-  Borg     -b
-  Dead     -d
-  Greedy   -g
-  Paranoid -p
-  Stoned   -s
-  Youthful -y
-
-Outside of the cow modes, there are several additional options. 
-Note that these are not available for ponder, since the ponder
-is the same software as cowponder and shares a thoughtbook.
-  --help,    -h         Print this help message and exit.
-  --version, -v         Display the version of cowponder and exit.
-  --update,  -u         Update the thoughtbook from the interwebs.
-                        This *will* erase any changes you've made; 
-                        back up anything you want to keep!
-  --add, -a [thought]   Add [thought] to the thoughtbook.""", 
-  usage="cowponder [-bdgpsy] [-h] [-v] [-u] [-a <THOUGHT>]", formatter_class=argparse.RawDescriptionHelpFormatter, add_help=False)
-
-    ap.add_argument("-v", "--version", action='store_true', help=argparse.SUPPRESS)
-    ap.add_argument("-u", "--update",  action='store_true', help=argparse.SUPPRESS)
-    ap.add_argument("-a", "--add", help=argparse.SUPPRESS)
-    arglist = 'bdgpsy'
-    for i in arglist:
-        ap.add_argument("-"+i, action="store_true", help=argparse.SUPPRESS)
+    ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
+    ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
+    ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
+    ap.add_argument("-a", "--add", help="Add custom thought to thoughtbook.")
 
 
     args = vars(ap.parse_args())
@@ -126,7 +134,8 @@ is the same software as cowponder and shares a thoughtbook.
         print("cowponder version 0.0.3-pip")
         exit()
 
-    if thought := args["add"]:
+    thought = args['add']
+    if thought:
         add_thoughts(thought)
         exit()
 
