@@ -1,4 +1,4 @@
-import ponder
+from cowponder.ponder import add_thoughts, update_thoughtbook, cowponder
 import argparse
 
 if __name__ == "__main__":
@@ -50,11 +50,11 @@ is the same software as cowponder and shares a thoughtbook.
 
     thought = args['add']
     if thought:
-        ponder.add_thoughts(thought)
+        add_thoughts(thought)
         exit()
 
     if args["update"]:
-        print(ponder.update_thoughtbook(no_errors=True))
+        print(update_thoughtbook(no_errors=True))
         exit()
     
-    print(ponder.cowponder(mode=prefix))
+    print(cowponder(mode=prefix))
