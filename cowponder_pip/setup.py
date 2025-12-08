@@ -9,11 +9,15 @@ def read_file(filename):
 
 requirements = read_file('requirements.txt')
 
+LONG_DESCRIPTION = read_file('README.md')
+
 setup(
     name="cowponder",
     description="A simple command that displays randomly selected philosophical thoughts from a cow",
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     url="https://max.xz.ax/cowponder",
-    version="0.0.5",
+    version="0.0.6",
     packages=find_packages(),
     py_modules=["cowponder"],
     python_requires='>=3.6',
