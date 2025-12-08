@@ -31,7 +31,7 @@ is the same software as cowponder and shares a thoughtbook.
                         This *will* erase any changes you've made; 
                         back up anything you want to keep!
   --add, -a [thought]   Add [thought] to the thoughtbook.""", 
-    usage="cowponder [-bdgpsy] [-h] [-v] [-u] [-a <THOUGHT>]", formatter_class=argparse.RawDescriptionHelpFormatter, add_help=False)
+    usage="cowponder [-bdgpsy] [-h] [-v] [-u] [-a <THOUGHT>]", formatter_class=argparse.RawDescriptionHelpFormatter, add_help=True)
 
     ap.add_argument("-v", "--version", action='store_true', help=argparse.SUPPRESS)
     ap.add_argument("-u", "--update",  action='store_true', help=argparse.SUPPRESS)

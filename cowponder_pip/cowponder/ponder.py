@@ -1,16 +1,18 @@
 from textwrap import wrap
 import argparse
-import subprocess
 from random import SystemRandom
 from os import path, popen
 import requests
 
+# TODO: could make configurable and use a ~/.cowponder/cowthoughts.txt path
+# instead of global /etc path if the user has no write permissions to /etc
 cowthoughts_path = "/etc/cowthoughts.txt"
 random = SystemRandom() # more random
 
 class NoThoughtsCowHeadEmptyError(Exception):
     def __init__(self, thoughtbook_path):
         super().__init__(f"Could not load thoughtbook from {thoughtbook_path}. Please check that it is there, or call update_thoughtbook() to re-download.")
+
 class EvilThoughtsError(Exception):
     def __init__(self, thoughttype):
          super().__init__(f"Cow cannot think a {repr(thoughttype)}. Please pass strings.")
@@ -110,15 +112,15 @@ def update_thoughtbook(no_errors=False):
         response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
         if response.status_code == 200:
             with open(cowthoughts_path, 'w') as f:
-                    f.write(response.text)
+                f.write(response.text)
             return "updated thoughtbook (moo)"
         else:
             raise PondererNotReachedError("failed to download cowthoughts.txt")
     except Exception as e:
         if no_errors:
-                return e
+            return e
         else:
-                raise e
+            raise e
 
 def main():
     ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
@@ -126,9 +128,7 @@ def main():
     ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
     ap.add_argument("-a", "--add", help="Add custom thought to thoughtbook.")
 
-
     args = vars(ap.parse_args())
-
 
     if args['version']:
         print("cowponder version 0.0.3-pip")

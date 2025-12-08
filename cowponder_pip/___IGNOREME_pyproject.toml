@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cowponder"
-version = "0.0.2"
+version = "0.0.5"
 authors = [
     {name="Max Cai",  email="maxster@xz.ax"},
     {name="Reid Dye", email="reid@xz.ax"},
