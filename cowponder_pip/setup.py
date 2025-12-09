@@ -17,8 +17,9 @@ setup(
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     url="https://max.xz.ax/cowponder",
-    version="0.0.6",
+    version="0.0.7",
     packages=find_packages(),
+    include_package_data=True,
     py_modules=["cowponder"],
     python_requires='>=3.6',
     entry_points={
