@@ -3,9 +3,9 @@ import argparse
 from random import SystemRandom
 from os import path, makedirs
 import io
-import requests
 import sys
 from platformdirs import site_data_dir, user_data_dir
+import urllib.request
 
 random = SystemRandom() # more random
 
@@ -205,15 +205,10 @@ def update_thoughtbook(no_errors=False):
     try:
         initialize_thoughtbook()  # ensure thoughtbook path exists
 
-        response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
-        if response.status_code != 200:
-            raise PondererNotReachedError(f"HTTP {response.status_code}")
-        
-        content = response.content.decode('utf-8')
-        
-        cowthoughts_path = get_cowthoughts_path()
-        with io.open(cowthoughts_path, 'w', encoding="utf-8") as f:
-            f.write(content)
+        with urllib.request.urlopen(get_cowthoughts_path()) as response:
+            with io.open(cowthoughts_path, 'w', encoding="utf-8") as f:
+                f.write(response.read().decode("utf-8"))
+
         return "updated thoughtbook (moo)"
     except Exception as e:
         if no_errors:
