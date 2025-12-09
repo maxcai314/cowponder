@@ -18,7 +18,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://max.xz.ax/cowponder",
     author="Max Cai",
-    version="0.1.6",
+    version="0.1.8",
     packages=find_packages(),
     include_package_data=True,
     py_modules=["cowponder"],

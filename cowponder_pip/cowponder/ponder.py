@@ -10,7 +10,7 @@ from platformdirs import site_data_dir, user_data_dir
 random = SystemRandom() # more random
 
 APPNAME = "cowponder"
-VERSION = "cowponder version 0.1.6 (pip)"
+VERSION = "cowponder version 0.1.8 (pip)"
 
 def _get_site_thoughtbook_path() -> str:
     """Get the system-wide thoughtbook path."""
@@ -46,6 +46,19 @@ class PondererNotReachedError(Exception):
      def __init__(self, error):
           super().__init__(f"Failed to download cowthoughts.txt (HTTP error {error}). No changes written to local thoughtbook.")
 
+def _handle_no_thoughts(cowthoughts_path, max_width, no_error):
+    if no_error:
+        if max_width is None:
+            return "No thoughts, head empty. Please run 'cowponder --update' to download the default thoughtbook."
+        else:
+            return [
+                "No thoughts, head empty.",
+                "Please run 'cowponder --update'",
+                "to download the default thoughtbook."
+            ]  # list of lines
+    else:
+        raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
+
 def ponder(max_width=None, no_error=False):
     """gets a random thought from the thoughtbook.
 
@@ -61,19 +74,12 @@ def ponder(max_width=None, no_error=False):
     """
     cowthoughts_path = get_cowthoughts_path()
     if not path.exists(cowthoughts_path):
-        if no_error:
-            if max_width is None:
-                return "No thoughts, head empty. Please run 'cowponder --update' to download the default thoughtbook."
-            else:
-                return [
-                    "No thoughts, head empty.",
-                    "Please run 'cowponder --update'",
-                    "to download the default thoughtbook."
-                ]  # list of lines
-        else:
-            raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
+        return _handle_no_thoughts(cowthoughts_path, max_width, no_error)
     with io.open(cowthoughts_path, encoding="utf-8") as thinkbook:
-        thought = random.choice(thinkbook.read().splitlines())
+        thoughts = thinkbook.read().splitlines()
+        if not thoughts:
+            return _handle_no_thoughts(cowthoughts_path, max_width, no_error)
+        thought = random.choice(thoughts)
     if max_width is None:
          return thought
     return wrap(thought, width=max_width)
@@ -206,7 +212,7 @@ def update_thoughtbook(no_errors=False):
         content = response.content.decode('utf-8')
         
         cowthoughts_path = get_cowthoughts_path()
-        with open(cowthoughts_path, 'w') as f:
+        with io.open(cowthoughts_path, 'w', encoding="utf-8") as f:
             f.write(content)
         return "updated thoughtbook (moo)"
     except Exception as e:
