@@ -17,7 +17,16 @@ A simple terminal command that displays randomly selected philosophical thoughts
 
 ## Installation
 
-### OSX
+### Pip
+
+Cowponder is available as a [pypi package](https://pypi.org/project/cowponder/)!
+The commandline tool can be installed via:
+```bash
+pip install cowponder
+```
+This is the most up-to-date port of cowponder.
+
+### OSX Homebrew (broken)
 
 If you already have homebrew installed, just run
 ```bash
