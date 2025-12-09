@@ -3,7 +3,7 @@ import argparse
 from random import SystemRandom
 from os import path, makedirs
 import io
-import requests
+import urllib.request
 import sys
 from platformdirs import site_data_dir, user_data_dir
 
@@ -205,17 +205,17 @@ def update_thoughtbook(no_errors=False):
     try:
         initialize_thoughtbook()  # ensure thoughtbook path exists
 
-        response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
-        if response.status_code != 200:
-            raise PondererNotReachedError(f"HTTP {response.status_code}")
-        
-        content = response.content.decode('utf-8')
-        
-        cowthoughts_path = get_cowthoughts_path()
-        with io.open(cowthoughts_path, 'w', encoding="utf-8") as f:
-            f.write(content)
+        with urllib.request.urlopen('https://max.xz.ax/cowponder/cowthoughts.txt') as response: # it would be great if we allowed passing this as a config option and then enabled self-hosted decentralized federated cowponder microservice b2b saas 67 rizz sigma ohio gyatt
+            content = response.read().decode('utf-8')
+
+            cowthoughts_path = get_cowthoughts_path()
+            with io.open(cowthoughts_path, 'w', encoding="utf-8") as f:
+                f.write(content)
         return "updated thoughtbook (moo)"
     except Exception as e:
+        # handle non-200 repsonses here becuase urllib is deranged LMFAO
+        if isinstance(e, urllib.error.HTTPError): # im not sure if this is pythonic. really the better thing to do would be to have multiple except blocks, but that kinda had a lot of redundant code (we ended up with multiple if no_errors: ... constructions). im too lazy to think of a better way to do this and this isn't really my project so not really my problem, so we'll just kinda hack this in and leave the problems for a future maintainer 
+            e = PondererNotReachedError(f"HTTP {e.code} - {e.reason}")
         if no_errors:
             return e
         else:
