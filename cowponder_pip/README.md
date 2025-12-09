@@ -32,7 +32,7 @@ cowponder
 
 Cowponder can also be imported into python code:
 ```
->>> from cowponder.ponder import cowponder
+>>> from cowponder import cowponder
 >>> print(cowponder())
  _______________________________________
 ( the realm of better days eats away my )

@@ -2,6 +2,7 @@ from textwrap import wrap
 import argparse
 from random import SystemRandom
 from os import path, makedirs
+import io
 import requests
 import sys
 from platformdirs import site_data_dir, user_data_dir
@@ -9,7 +10,7 @@ from platformdirs import site_data_dir, user_data_dir
 random = SystemRandom() # more random
 
 APPNAME = "cowponder"
-VERSION = "cowponder version 0.1.5 (pip)"
+VERSION = "cowponder version 0.1.6 (pip)"
 
 def _get_site_thoughtbook_path() -> str:
     """Get the system-wide thoughtbook path."""
@@ -71,7 +72,7 @@ def ponder(max_width=None, no_error=False):
                 ]  # list of lines
         else:
             raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
-    with open(cowthoughts_path) as thinkbook:
+    with io.open(cowthoughts_path, encoding="utf-8") as thinkbook:
         thought = random.choice(thinkbook.read().splitlines())
     if max_width is None:
          return thought
@@ -129,7 +130,7 @@ def add_thoughts(*thoughts):
     initialize_thoughtbook()  # ensure thoughtbook path exists
     cowthoughts_path = get_cowthoughts_path()
     _verify_thoughtbook(cowthoughts_path)
-    with open(cowthoughts_path, "a") as f:
+    with io.open(cowthoughts_path, "a", encoding="utf-8") as f:
         for thought in thoughts:
             _verify_thought(thought)
             print(thought, file=f, end='\n')
@@ -147,7 +148,7 @@ def initialize_thoughtbook():
         if not path.exists(site_dir):
             makedirs(site_dir, exist_ok=True)
         if not path.exists(site_path):
-            with open(site_path, 'w') as f:
+            with io.open(site_path, 'w', encoding="utf-8") as f:
                 pass  # create empty thoughtbook
             return
     except (IOError, OSError, PermissionError):
@@ -160,7 +161,7 @@ def initialize_thoughtbook():
         if not path.exists(user_dir):
             makedirs(user_dir, exist_ok=True)
         if not path.exists(user_path):
-            with open(user_path, 'w') as f:
+            with io.open(user_path, 'w', encoding="utf-8") as f:
                 pass  # create empty thoughtbook
             return
 
@@ -172,15 +173,16 @@ def print_info():
     if path.exists(site_path):
         thoughtbook_path = site_path
         print(f"system-wide thoughtbook: {thoughtbook_path}")
-        print(f"thought count: {len(open(thoughtbook_path).read().splitlines())}")
     elif path.exists(user_path):
         thoughtbook_path = user_path
         print(f"user-local thoughtbook: {thoughtbook_path}")
-        print(f"thought count: {len(open(thoughtbook_path).read().splitlines())}")
     else:
         print("No thoughtbook found.")
         print("Please run 'cowponder --update' to download the default thoughtbook.")
         return
+    with io.open(thoughtbook_path, encoding='utf-8') as f:
+        print(f"thought count: {len(f.read().splitlines())}")
+
 
 def update_thoughtbook(no_errors=False):
     """updates the thoughtbook from the server.
