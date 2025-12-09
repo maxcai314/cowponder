@@ -27,7 +27,7 @@ Note that these are not available for ponder, since the ponder
 is the same software as cowponder and shares a thoughtbook.
   --help,    -h         Print this help message and exit.
   --version, -v         Display the version of cowponder and exit.
-  --info,    -i         Print thoughtbook location and status.
+  --info,    -i         Print thoughtbook information and exit.
   --update,  -u         Update the thoughtbook from the interwebs.
                         This *will* erase any changes you've made; 
                         back up anything you want to keep!

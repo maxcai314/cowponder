@@ -9,7 +9,7 @@ from platformdirs import site_data_dir, user_data_dir
 random = SystemRandom() # more random
 
 APPNAME = "cowponder"
-VERSION = "cowponder version 0.1.2 (pip)"
+VERSION = "cowponder version 0.1.5 (pip)"
 
 def _get_site_thoughtbook_path() -> str:
     """Get the system-wide thoughtbook path."""
@@ -62,7 +62,7 @@ def ponder(max_width=None, no_error=False):
     if not path.exists(cowthoughts_path):
         if no_error:
             if max_width is None:
-                return "No thoughts, head empty."
+                return "No thoughts, head empty. Please run 'cowponder --update' to download the default thoughtbook."
             else:
                 return [
                     "No thoughts, head empty.",
@@ -108,18 +108,17 @@ def cowponder(mode="", width=40):
     out += '\n '+'-'*(truewidth+2) + '\n'
     return out+cow(*args)
 
-def _verify_thoughtbook(path, no_error=False):
+def _verify_thoughtbook(cowthoughts_path, no_error=False):
     if not path.exists(cowthoughts_path):
         if no_error: return NoThoughtsCowHeadEmptyError(cowthoughts_path)
         else: raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
     else: return True
 
-def _verify_thoughts(thoughts):
-    for thought in thoughts:
-         if '\n' in thoughts:
-              raise EvilThoughtsError('\n')
-         if not isinstance(thought, str):
-              raise EvilThoughtsError(type(thought))
+def _verify_thought(thought):
+    if '\n' in thought:
+        raise EvilThoughtsError('\n')
+    if not isinstance(thought, str):
+        raise EvilThoughtsError(type(thought))
 
 def add_thoughts(*thoughts):
     """adds all thoughts passed to the thoughtbook.
@@ -130,9 +129,10 @@ def add_thoughts(*thoughts):
     initialize_thoughtbook()  # ensure thoughtbook path exists
     cowthoughts_path = get_cowthoughts_path()
     _verify_thoughtbook(cowthoughts_path)
-    _verify_thoughts(thoughts)
     with open(cowthoughts_path, "a") as f:
-        print(thoughts, file=f, sep="\n")
+        for thought in thoughts:
+            _verify_thought(thought)
+            print(thought, file=f, end='\n')
 
 def initialize_thoughtbook():
     """
@@ -217,8 +217,8 @@ def main():
     ap = argparse.ArgumentParser(prog="ponder", description="provides the functionality of `cowponder` minus the bovine centerpiece, allowing users to pipe the output to their contemplative creature of choice.")
     ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
     ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
-    ap.add_argument("-a", "--add", help="Add custom thought to thoughtbook.")
     ap.add_argument("-i", "--info", action='store_true', help="Print thoughtbook information and exit.")
+    ap.add_argument("-a", "--add", help="Add custom thought to thoughtbook.")
 
     args = vars(ap.parse_args())
 
@@ -239,7 +239,7 @@ def main():
         print(update_thoughtbook(no_errors=True))
         exit()
 
-    print(ponder())
+    print(ponder(no_error=True))
 
 if __name__ == "__main__":
     main()
