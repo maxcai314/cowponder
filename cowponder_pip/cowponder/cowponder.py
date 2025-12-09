@@ -1,4 +1,4 @@
-from cowponder.ponder import add_thoughts, update_thoughtbook, cowponder
+from cowponder.ponder import add_thoughts, update_thoughtbook, cowponder, print_info, VERSION
 import argparse
 
 def main():
@@ -27,15 +27,17 @@ Note that these are not available for ponder, since the ponder
 is the same software as cowponder and shares a thoughtbook.
   --help,    -h         Print this help message and exit.
   --version, -v         Display the version of cowponder and exit.
+  --info,    -i         Print thoughtbook location and status.
   --update,  -u         Update the thoughtbook from the interwebs.
                         This *will* erase any changes you've made; 
                         back up anything you want to keep!
   --add, -a [thought]   Add [thought] to the thoughtbook.""", 
-    usage="cowponder [-bdgpsy] [-h] [-v] [-u] [-a <THOUGHT>]", formatter_class=argparse.RawDescriptionHelpFormatter, add_help=True)
+    usage="cowponder [-bdgpsy] [-h] [-v] [-u] [-i] [-a <THOUGHT>]", formatter_class=argparse.RawDescriptionHelpFormatter, add_help=True)
 
     ap.add_argument("-v", "--version", action='store_true', help=argparse.SUPPRESS)
     ap.add_argument("-u", "--update",  action='store_true', help=argparse.SUPPRESS)
     ap.add_argument("-a", "--add", help=argparse.SUPPRESS)
+    ap.add_argument("-i", "--info", action='store_true', help=argparse.SUPPRESS)
     arglist = 'bdgpsy'
     for i in arglist:
         ap.add_argument("-"+i, action="store_true", help=argparse.SUPPRESS)
@@ -45,7 +47,11 @@ is the same software as cowponder and shares a thoughtbook.
     prefix = "".join([i for i in arglist if args[i]])
 
     if args['version']:
-        print("cowponder version 0.0.3-pip")
+        print(VERSION)
+        exit()
+
+    if args['info']:
+        print_info()
         exit()
 
     thought = args['add']

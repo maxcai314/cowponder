@@ -1,13 +1,37 @@
 from textwrap import wrap
 import argparse
 from random import SystemRandom
-from os import path, popen
+from os import path, makedirs
 import requests
+import sys
+from platformdirs import site_data_dir, user_data_dir
 
-# TODO: could make configurable and use a ~/.cowponder/cowthoughts.txt path
-# instead of global /etc path if the user has no write permissions to /etc
-cowthoughts_path = "/etc/cowthoughts.txt"
 random = SystemRandom() # more random
+
+APPNAME = "cowponder"
+VERSION = "cowponder version 0.1.2 (pip)"
+
+def _get_site_thoughtbook_path() -> str:
+    """Get the system-wide thoughtbook path."""
+    return path.join(site_data_dir(APPNAME), "cowthoughts.txt")
+
+def _get_user_thoughtbook_path() -> str:
+    """Get the fallback user-local thoughtbook path."""
+    return path.join(user_data_dir(APPNAME), "cowthoughts.txt")
+
+def get_cowthoughts_path() -> str:
+    """Get the path to cowthoughts.txt, preferring system-wide if it exists, else user-local."""
+    site_path = _get_site_thoughtbook_path()
+    user_path = _get_user_thoughtbook_path()
+    
+    # Prefer system-wide if it exists
+    if path.exists(site_path):
+        return site_path
+    elif path.exists(user_path):
+        return user_path
+    else:
+        # Neither exists - return site path as default (will lead to error)
+        return site_path
 
 class NoThoughtsCowHeadEmptyError(Exception):
     def __init__(self, thoughtbook_path):
@@ -34,11 +58,21 @@ def ponder(max_width=None, no_error=False):
     Returns:
         str | list[str]: the randomly selected thought. If wrapping was requested, a list of lines is returned (no final newlines).
     """
+    cowthoughts_path = get_cowthoughts_path()
     if not path.exists(cowthoughts_path):
-        if no_error: return "No thoughts, head empty."
-        else: raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
+        if no_error:
+            if max_width is None:
+                return "No thoughts, head empty."
+            else:
+                return [
+                    "No thoughts, head empty.",
+                    "Please run 'cowponder --update'",
+                    "to download the default thoughtbook."
+                ]  # list of lines
+        else:
+            raise NoThoughtsCowHeadEmptyError(cowthoughts_path)
     with open(cowthoughts_path) as thinkbook:
-        thought = random.choice([thought for thought in thinkbook.read().split("\n") if thought])
+        thought = random.choice(thinkbook.read().splitlines())
     if max_width is None:
          return thought
     return wrap(thought, width=max_width)
@@ -65,7 +99,9 @@ def cowponder(mode="", width=40):
     else:
         args = ("oo", " ")
     
-    thought = ponder(width, no_error=True)
+    thought = ponder(max_width=width, no_error=True)
+    if isinstance(thought, str):
+        thought = [thought]
     truewidth = max(map(len, thought))
     out = ' ' + '_'*(truewidth+2) + '\n'
     out += '\n'.join([f"( {i.ljust(truewidth)} )" for i in thought])
@@ -91,10 +127,60 @@ def add_thoughts(*thoughts):
     Args:
         *thoughts (str): pass any number of strings to be added to the thoughtbook. Thoughts may not include a newline character.
     """
+    initialize_thoughtbook()  # ensure thoughtbook path exists
+    cowthoughts_path = get_cowthoughts_path()
     _verify_thoughtbook(cowthoughts_path)
     _verify_thoughts(thoughts)
     with open(cowthoughts_path, "a") as f:
         print(thoughts, file=f, sep="\n")
+
+def initialize_thoughtbook():
+    """
+    initializes a thoughtbook if not present.
+    calling this function may change the result
+    of subsequent calls to get_cowthoughts_path().
+    """
+    # First try system-wide location
+    site_path = _get_site_thoughtbook_path()
+    site_dir = path.dirname(site_path)
+    try:
+        if not path.exists(site_dir):
+            makedirs(site_dir, exist_ok=True)
+        if not path.exists(site_path):
+            with open(site_path, 'w') as f:
+                pass  # create empty thoughtbook
+            return
+    except (IOError, OSError, PermissionError):
+        # Failed to write to system location, fall back to user location
+        user_path = _get_user_thoughtbook_path()
+        user_dir = path.dirname(user_path)
+        print(f"Warning: Could not write to system-wide location {site_path}", file=sys.stderr)
+        print(f"Permission denied. If you want a system-wide thoughtbook, try running with elevated privileges.", file=sys.stderr)
+        print(f"\nFalling back to user-local location: {user_path}", file=sys.stderr)
+        if not path.exists(user_dir):
+            makedirs(user_dir, exist_ok=True)
+        if not path.exists(user_path):
+            with open(user_path, 'w') as f:
+                pass  # create empty thoughtbook
+            return
+
+def print_info():
+    """Print information about the thoughtbook location and status."""
+    site_path = _get_site_thoughtbook_path()
+    user_path = _get_user_thoughtbook_path()
+    
+    if path.exists(site_path):
+        thoughtbook_path = site_path
+        print(f"system-wide thoughtbook: {thoughtbook_path}")
+        print(f"thought count: {len(open(thoughtbook_path).read().splitlines())}")
+    elif path.exists(user_path):
+        thoughtbook_path = user_path
+        print(f"user-local thoughtbook: {thoughtbook_path}")
+        print(f"thought count: {len(open(thoughtbook_path).read().splitlines())}")
+    else:
+        print("No thoughtbook found.")
+        print("Please run 'cowponder --update' to download the default thoughtbook.")
+        return
 
 def update_thoughtbook(no_errors=False):
     """updates the thoughtbook from the server.
@@ -109,13 +195,18 @@ def update_thoughtbook(no_errors=False):
         str | Exception: a success message or an exception. 
     """
     try:
+        initialize_thoughtbook()  # ensure thoughtbook path exists
+
         response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
-        if response.status_code == 200:
-            with open(cowthoughts_path, 'w') as f:
-                f.write(response.content.decode('utf-8'))
-            return "updated thoughtbook (moo)"
-        else:
-            raise PondererNotReachedError("failed to download cowthoughts.txt")
+        if response.status_code != 200:
+            raise PondererNotReachedError(f"HTTP {response.status_code}")
+        
+        content = response.content.decode('utf-8')
+        
+        cowthoughts_path = get_cowthoughts_path()
+        with open(cowthoughts_path, 'w') as f:
+            f.write(content)
+        return "updated thoughtbook (moo)"
     except Exception as e:
         if no_errors:
             return e
@@ -127,11 +218,16 @@ def main():
     ap.add_argument("-v", "--version", action='store_true', help="Print version information and exit.")
     ap.add_argument("-u", "--update",  action='store_true', help="Update thoughtbook from the server. This *will* overwrite any changes made with cowponder --add.")
     ap.add_argument("-a", "--add", help="Add custom thought to thoughtbook.")
+    ap.add_argument("-i", "--info", action='store_true', help="Print thoughtbook information and exit.")
 
     args = vars(ap.parse_args())
 
     if args['version']:
-        print("cowponder version 0.0.3-pip")
+        print(VERSION)
+        exit()
+
+    if args['info']:
+        print_info()
         exit()
 
     thought = args['add']
