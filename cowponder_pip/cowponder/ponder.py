@@ -112,7 +112,7 @@ def update_thoughtbook(no_errors=False):
         response = requests.get('https://max.xz.ax/cowponder/cowthoughts.txt')
         if response.status_code == 200:
             with open(cowthoughts_path, 'w') as f:
-                f.write(response.text)
+                f.write(response.content.decode('utf-8'))
             return "updated thoughtbook (moo)"
         else:
             raise PondererNotReachedError("failed to download cowthoughts.txt")
